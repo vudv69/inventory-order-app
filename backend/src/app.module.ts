@@ -15,6 +15,9 @@ import { AuthService } from './auth/auth.service';
 import { UserModule } from './user/user.module';
 import { jwtConstants } from './utils/auth.constants';
 import { AuthModule } from './auth/auth.module';
+import { ProductModule } from './product/product.module';
+import { OrderModule } from './order/order.module';
+import { Product } from './product/product.schema';
 
 @Module({
   imports: [
@@ -41,12 +44,14 @@ import { AuthModule } from './auth/auth.module';
       username: 'postgres',
       password: 'postgres',
       database: 'inventory_order_db',
-      entities: [User],
+      entities: [User, Product],
       synchronize: true,
     }),
 
     AuthModule,
     UserModule,
+    ProductModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [

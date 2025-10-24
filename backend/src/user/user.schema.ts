@@ -6,9 +6,9 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 100, unique: true })
   username: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 20, default: UserRole.User })
   role: UserRole;
 }
