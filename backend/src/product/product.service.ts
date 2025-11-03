@@ -1,11 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { PaginatedProductResponseDto } from './product.dto';
 import { ProductRepository } from './product.repository';
 
 @Injectable()
 export class ProductService {
   constructor(private readonly repo: ProductRepository) {}
 
-  async list(page = 1, limit = 10, filter?: string) {
+  async list(
+    page = 1,
+    limit = 10,
+    filter?: string,
+  ): Promise<PaginatedProductResponseDto> {
     const skip = (page - 1) * limit;
     const [data, total] = await this.repo.findAll(skip, limit, filter);
     return { data, total, page, limit };
