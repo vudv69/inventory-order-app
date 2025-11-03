@@ -16,8 +16,8 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { Roles } from 'src/utils/auth.constants';
-import { UserRole } from 'src/utils/constants';
+import { Roles } from '../utils/auth.constants';
+import { UserRole } from '../utils/constants';
 import {
   PaginatedProductResponseDto,
   ProductCreateDto,
