@@ -26,6 +26,6 @@ export class Product {
   })
   status: ProductStatus;
 
-  @Column({ type: 'integer', default: 0 })
-  inventory_count: number;
+  @Column({ type: 'integer', default: 0, name: 'inventory_count' })
+  inventoryCount: number;
 }

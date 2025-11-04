@@ -9,8 +9,8 @@ export class InitSchema1761294560442 implements MigrationInterface {
         "id" SERIAL PRIMARY KEY,
         "username" VARCHAR(100) UNIQUE NOT NULL,
         "role" VARCHAR(20) NOT NULL DEFAULT 'USER',
-        "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
-        "updatedAt" TIMESTAMP NOT NULL DEFAULT now()
+        "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+        "updated_at" TIMESTAMP NOT NULL DEFAULT now()
       );
 
       CREATE TABLE IF NOT EXISTS "products" (

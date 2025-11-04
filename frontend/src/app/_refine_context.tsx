@@ -34,7 +34,7 @@ export const RefineContext = ({ children }: RefineContextProps) => {
           }}
         >
           {children}
-          <Toaster />
+          <Toaster richColors />
           <RefineKbar />
         </Refine>
       </ThemeProvider>

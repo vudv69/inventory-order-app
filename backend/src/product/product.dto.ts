@@ -5,6 +5,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  Min,
 } from 'class-validator';
 import { ProductStatus } from './product.schema';
 
@@ -25,7 +26,7 @@ export class ProductResponseDto {
   status: ProductStatus;
 
   @ApiProperty({ example: 50, nullable: true })
-  inventory_count: number | null;
+  inventoryCount: number | null;
 }
 
 export class PaginatedProductResponseDto {
@@ -55,20 +56,23 @@ export class ProductCreateDto {
 
   @ApiProperty({ example: 999.9 })
   @IsNumber()
+  @Min(0, { message: 'Price must be positive number' })
   @IsNotEmpty()
-  price: number;
+  price?: number = 0;
 
   @ApiProperty({
     enum: ProductStatus,
     example: ProductStatus.Active,
-    required: false,
   })
   @IsEnum(ProductStatus)
   @IsOptional()
   status?: ProductStatus;
 
+  @ApiProperty({ example: 5, required: false, default: 0 })
+  @IsNumber()
+  @Min(0, { message: 'Inventory count must be zero or positive' })
   @IsOptional()
-  inventory_count?: number;
+  inventoryCount?: number = 0;
 }
 
 export class ProductUpdateDto extends PartialType(ProductCreateDto) {}

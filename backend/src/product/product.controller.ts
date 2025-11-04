@@ -24,6 +24,7 @@ import {
   ProductResponseDto,
   ProductUpdateDto,
 } from './product.dto';
+import { ProductStatus } from './product.schema';
 import { ProductService } from './product.service';
 
 @ApiTags('Products')
@@ -35,35 +36,47 @@ export class ProductController {
   @Get()
   @ApiQuery({ name: 'page', required: false, example: 1, default: 1 })
   @ApiQuery({ name: 'limit', required: false, example: 10, default: 10 })
-  @ApiQuery({ name: 'filter', required: false, example: '' })
+  @ApiQuery({ name: 'filter', required: false, example: 'milk' })
+  @ApiQuery({
+    name: 'status',
+    required: false,
+    enum: ProductStatus,
+    example: ProductStatus.Active,
+  })
   @ApiOkResponse({ type: PaginatedProductResponseDto })
-  async getAll(
+  async getProducts(
     @Query('page') page = 1,
     @Query('limit') limit = 10,
     @Query('filter') filter?: string,
+    @Query('status') status?: ProductStatus,
   ): Promise<PaginatedProductResponseDto> {
-    return this.service.list(Number(page), Number(limit), filter);
+    return this.service.getProducts(
+      Number(page),
+      Number(limit),
+      filter,
+      status,
+    );
   }
 
   @Post()
   @Roles(UserRole.Manager)
   @ApiCreatedResponse({ type: ProductResponseDto })
-  create(@Body() body: ProductCreateDto) {
-    return this.service.create(body);
+  createProduct(@Body() body: ProductCreateDto) {
+    return this.service.createProduct(body);
   }
 
   @Put(':id')
   @Roles(UserRole.Manager)
   @ApiParam({ name: 'id', type: Number, example: 1 })
   @ApiOkResponse({ type: ProductResponseDto })
-  update(@Param('id') id: number, @Body() body: ProductUpdateDto) {
-    return this.service.update(Number(id), body);
+  updateProduct(@Param('id') id: number, @Body() body: ProductUpdateDto) {
+    return this.service.updateProduct(Number(id), body);
   }
 
   @Delete(':id')
   @Roles(UserRole.Manager)
   @ApiParam({ name: 'id', type: Number, example: 1 })
-  remove(@Param('id') id: number) {
-    return this.service.remove(Number(id));
+  deleteProduct(@Param('id') id: number) {
+    return this.service.deleteProduct(Number(id));
   }
 }

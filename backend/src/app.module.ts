@@ -6,18 +6,16 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './config/auth.guard.authen';
 import { RolesGuard } from './config/auth.guard.author';
 import { UserThrottlerGuard } from './config/user-throttller.guard';
-import { AuthController } from './auth/auth.controller';
-import { User } from './user/user.schema';
-import { AuthService } from './auth/auth.service';
-import { UserModule } from './user/user.module';
-import { jwtConstants } from './utils/auth.constants';
-import { AuthModule } from './auth/auth.module';
-import { ProductModule } from './product/product.module';
 import { OrderModule } from './order/order.module';
+import { ProductModule } from './product/product.module';
 import { Product } from './product/product.schema';
+import { UserModule } from './user/user.module';
+import { User } from './user/user.schema';
+import { jwtConstants } from './utils/auth.constants';
 
 @Module({
   imports: [

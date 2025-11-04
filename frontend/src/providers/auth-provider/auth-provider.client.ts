@@ -20,8 +20,30 @@ const mockUsers = [
 
 export const authProviderClient: AuthProvider = {
   login: async ({ email, username, password, remember }) => {
+    const res = await fetch("http://localhost:3001/v1/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify({ username: username || email }),
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      return {
+        success: false,
+        error: {
+          name: "LoginError",
+          message: err.message || "Invalid username",
+        },
+      };
+    }
+
     // Suppose we actually send a request to the back end here.
-    const user = mockUsers[0];
+    // const user = mockUsers[0];
+    const user = await res.json().then(({ data }) => data);
 
     if (user) {
       Cookies.set("auth", JSON.stringify(user), {
@@ -30,7 +52,7 @@ export const authProviderClient: AuthProvider = {
       });
       return {
         success: true,
-        redirectTo: "/",
+        redirectTo: "/products",
       };
     }
 
@@ -43,6 +65,14 @@ export const authProviderClient: AuthProvider = {
     };
   },
   logout: async () => {
+    try {
+      await fetch("http://localhost:3001/v1/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (err) {
+      console.error("Logout API failed", err);
+    }
     Cookies.remove("auth", { path: "/" });
     return {
       success: true,

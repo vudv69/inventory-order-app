@@ -14,7 +14,7 @@ export class Order {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ name: 'customer_name' })
   customerName: string;
 
   @Column({ default: 'pending' })

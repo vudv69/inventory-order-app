@@ -7,11 +7,11 @@ export class SeedProductList1761298947374 implements MigrationInterface {
     await queryRunner.query(`
       INSERT INTO products ("name", "sku", "price", "status", "inventory_count")
       VALUES
-      ('iPhone 15 Pro', 'SKU-IPHONE15PRO', 1200, 'active', 50),
-      ('MacBook Air M3', 'SKU-MACBOOKAIRM3', 1600, 'active', 20),
-      ('Apple Watch Ultra 2', 'SKU-WATCHULTRA2', 899, 'inactive', 0),
-      ('iPad Pro 13', 'SKU-IPADPRO13', 1300, 'active', 10),
-      ('AirPods Pro 2', 'SKU-AIRPODSPRO2', 249, 'active', 100);
+      ('iPhone 15 Pro', 'SKU-IPHONE15PRO', 1200, 'ACTIVE', 50),
+      ('MacBook Air M3', 'SKU-MACBOOKAIRM3', 1600, 'ACTIVE', 20),
+      ('Apple Watch Ultra 2', 'SKU-WATCHULTRA2', 899, 'INACTIVE', 0),
+      ('iPad Pro 13', 'SKU-IPADPRO13', 1300, 'ACTIVE', 10),
+      ('AirPods Pro 2', 'SKU-AIRPODSPRO2', 249, 'ACTIVE', 100);
     `);
   }
 
