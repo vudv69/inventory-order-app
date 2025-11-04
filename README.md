@@ -15,6 +15,7 @@ Since this week is a sprint release, I only spent 3 hours to complete the follow
 - Set up API versioning (/v1)
 - Set up database migration
 - Integrated Swagger
+- Wrote test cases for product api
 - Implemented a login API: `POST localhost:3001/v1/login`
   - Seed 2 users: `manager` and `user`
 
@@ -31,9 +32,11 @@ Since this week is a sprint release, I only spent 3 hours to complete the follow
 
 #### Some tasks are not implemented yet:
 - API for order
-- Unit test
-- Testing
+
 
 ## Frontend
 
-Just init repo with Refine framework
+- Init repo with Refine framework
+- Design login page
+- Design the products page (integrated APIs)
+
