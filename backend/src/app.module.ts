@@ -37,11 +37,10 @@ import { jwtConstants } from './utils/auth.constants';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'inventory_order_db',
+      url: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false,
+      },
       entities: [User, Product],
       synchronize: true,
     }),

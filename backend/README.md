@@ -1,6 +1,6 @@
 ###
 
-### How to start app
+### How to start app at local
 
 - Install dependencies: `npm install`
 - Run postgres by docker: `docker-compose up -d`
@@ -11,9 +11,3 @@ npm run migration:run
 ```
 - Start backend server: `npm run start`
 - Then you can use postman to test APIs
-
-
-### Run migration script
-npm run build
-npm run migration:run
-npm run migration:revert
