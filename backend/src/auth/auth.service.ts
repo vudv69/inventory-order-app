@@ -20,8 +20,6 @@ export class AuthService {
 
     const isMatching = await bcrypt.compare(input.password, user.password);
 
-    console.log(await bcrypt.hash(input.password, 10));
-
     if (!isMatching) {
       throw new UnauthorizedException();
     }
