@@ -24,12 +24,12 @@ export const ProductListTable = (props: Props) => {
     () => [
       {
         field: "id",
-        headerName: "ID #",
-        description: "ID #",
-        width: 52,
+        headerName: "ID",
+        description: "ID",
+        width: 300,
         display: "flex",
         renderCell: function render({ row }) {
-          return <Typography>#{row.id}</Typography>;
+          return <Typography>{row.id}</Typography>;
         },
       },
       {
