@@ -8,6 +8,7 @@ import {
   ProductCreateDto,
   toProductResponseDto,
   ProductResponse,
+  PaginatedProductResponseDto,
 } from './product.dto';
 import { ProductRepository } from './product.repository';
 
@@ -15,33 +16,64 @@ import { ProductRepository } from './product.repository';
 export class ProductService {
   constructor(private repo: ProductRepository) {}
 
-  async getProducts(start = 0, end = 12): Promise<ProductResponse[]> {
+  async getProduct(id: string) {
+    return this.repo.findById(id);
+  }
+
+  async getProducts(start = 0, end = 12): Promise<any> {
     const [data, total] = await this.repo.filter(start, end);
-    return data.map((p) => toProductResponseDto(p));
+    const products = data.map((p) => toProductResponseDto(p));
+
+    return products;
   }
 
   async createProduct(input: ProductCreateDto) {
-    const product = await this.repo.findBySKU(input.sku);
-    if (product) throw new ConflictException('Product SKU exists');
-    const saved = await this.repo.save(input as any);
-    return toProductResponseDto(saved as any);
+    const sku = await this.generateSku();
+    const product = await this.repo.save({
+      ...input,
+      sku,
+    });
+    return toProductResponseDto(product as any);
   }
 
   async updateProduct(id: string, input: ProductUpdateDto) {
-    const product = await this.repo.findById(id);
-    if (!product) throw new NotFoundException('Product not found');
-    if (input.sku == product.sku) {
-      const existing = await this.repo.findBySKU(input.sku);
-      if (existing) throw new ConflictException('Product SKU already exists');
+    const dbProduct = await this.repo.findById(id);
+
+    if (!dbProduct) {
+      throw new NotFoundException('Product not found');
     }
-    Object.assign(product, input);
-    const saved = await this.repo.save(product);
-    return toProductResponseDto(saved as any);
+
+    Object.assign(dbProduct, input);
+
+    const updatedProduct = await this.repo.save(dbProduct);
+
+    return toProductResponseDto(updatedProduct as any);
   }
 
   async deleteProduct(id: string) {
-    const deleted = await this.repo.delete(id);
-    if (!deleted) throw new NotFoundException('Product not found');
+    const dbProduct = await this.repo.findById(id);
+
+    if (!dbProduct) {
+      throw new NotFoundException('Product not found');
+    }
+
+    await this.repo.delete(id);
+
     return true;
+  }
+
+  private async generateSku() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let sku = '';
+    for (let i = 0; i < length; i++) {
+      sku += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    const product = await this.repo.findBySKU(sku);
+
+    if (!product) {
+      return sku;
+    }
+
+    return this.generateSku();
   }
 }

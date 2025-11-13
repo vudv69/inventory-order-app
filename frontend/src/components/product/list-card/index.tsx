@@ -247,7 +247,7 @@ export const ProductListCard = (props: Props) => {
           marginTop: "24px",
         }}
       />
-      <TablePagination
+      {/* <TablePagination
         component="div"
         count={props.dataGridProps.rowCount}
         page={props.dataGridProps.paginationModel?.page || 0}
@@ -259,7 +259,7 @@ export const ProductListCard = (props: Props) => {
         onPageChange={(_e, page) => {
           props.setCurrentPage(page + 1);
         }}
-      />
+      /> */}
     </>
   );
 };

@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -35,12 +36,19 @@ export class ProductController {
   @Get()
   @ApiQuery({ name: '_start', required: false, example: 0, default: 0 })
   @ApiQuery({ name: '_end', required: false, example: 12, default: 12 })
-  @ApiOkResponse({ type: ProductResponse })
+  @ApiOkResponse({ type: PaginatedProductResponseDto })
   async getProducts(
     @Query('_start') start = 0,
-    @Query('_end') end = 12,
-  ): Promise<ProductResponse[]> {
+    @Query('_end') end = 100,
+  ): Promise<PaginatedProductResponseDto> {
     return this.service.getProducts(start, end);
+  }
+
+  @Get(':id')
+  @Roles(UserRole.Manager)
+  @ApiCreatedResponse({ type: ProductResponse })
+  getProduct(@Param('id') id: string) {
+    return this.service.getProduct(id);
   }
 
   @Post()
@@ -50,7 +58,7 @@ export class ProductController {
     return this.service.createProduct(body);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @Roles(UserRole.Manager)
   @ApiParam({
     name: 'id',

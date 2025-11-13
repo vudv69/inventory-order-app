@@ -26,10 +26,10 @@ export const ProductList = ({ children }: PropsWithChildren) => {
   const { createUrl } = useNavigation();
   const t = useTranslate();
 
-  const dataGrid = useDataGrid<IProduct>({
+  const dataGrid: any = useDataGrid<IProduct>({
     resource: "products",
     pagination: {
-      pageSize: 12,
+      mode: "off",
     },
   });
 

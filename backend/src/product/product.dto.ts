@@ -64,30 +64,21 @@ export class ProductCreateDto {
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty({ example: 'Product SKU' })
+  @ApiProperty({ example: 'Product description' })
   @IsString()
   @IsNotEmpty()
-  sku: string;
+  description: string;
 
   @ApiProperty({ example: 999.9 })
   @IsNumber()
   @Min(0, { message: 'Price must be positive number' })
   @IsNotEmpty()
-  price?: number = 0;
+  price: number;
 
-  @ApiProperty({
-    enum: ProductStatus,
-    example: ProductStatus.Active,
-  })
+  @ApiProperty({ example: true })
   @IsEnum(ProductStatus)
   @IsOptional()
-  status?: ProductStatus;
-
-  @ApiProperty({ example: 5, required: false, default: 0 })
-  @IsNumber()
-  @Min(0, { message: 'Inventory count must be zero or positive' })
-  @IsOptional()
-  inventoryCount?: number = 0;
+  isActive?: boolean;
 }
 
 export class ProductUpdateDto extends PartialType(ProductCreateDto) {}
