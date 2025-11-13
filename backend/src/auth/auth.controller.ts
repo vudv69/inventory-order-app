@@ -14,26 +14,10 @@ export class AuthController {
   @Post('login')
   @ApiBody({ type: LoginRequest })
   @ApiOkResponse({ type: LoginResponse })
-  async login(
+  login(
     @Body() input: LoginRequest,
     @Res({ passthrough: true }) res: Response,
   ): Promise<LoginResponse> {
-    const response = await this.authService.login(input);
-
-    res.cookie('access_token', response.accessToken, {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
-      maxAge: 1000 * 60 * 60, // 1h
-      path: '/',
-    });
-
-    return response;
-  }
-
-  @Post('logout')
-  logout(@Res({ passthrough: true }) res: Response) {
-    res.clearCookie('access_token', { path: '/' });
-    return { message: 'Logged out' };
+    return this.authService.login(input);
   }
 }

@@ -1,0 +1,24 @@
+import axios, { isAxiosError } from "axios";
+
+const axiosInstance = axios.create({
+  baseURL: import.meta.env.API_URL || "http://localhost:3001",
+});
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    if (typeof window !== "undefined") {
+      try {
+        const accountInfoAsStr = localStorage.getItem("account") || "";
+        const accountInfo = JSON.parse(accountInfoAsStr);
+
+        config.headers.Authorization = `Bearer ${accountInfo.accessToken}`;
+      } catch {
+        // console.error
+      }
+    }
+    return config;
+  },
+  (err) => Promise.reject(err)
+);
+
+export default axiosInstance;

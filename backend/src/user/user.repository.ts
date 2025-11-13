@@ -9,7 +9,7 @@ export class UserRepository {
     @InjectRepository(User) private readonly userRepo: Repository<User>,
   ) {}
 
-  findByUsername(username: string): Promise<User | null> {
-    return this.userRepo.findOne({ where: { username } });
+  findByEmail(email: string): Promise<User | null> {
+    return this.userRepo.findOne({ where: { email } });
   }
 }

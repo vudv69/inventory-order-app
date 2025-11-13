@@ -12,11 +12,11 @@ export class SeedOrders1761300000000 implements MigrationInterface {
         o3 uuid := uuid_generate_v4();
         mgr uuid;
       BEGIN
-        SELECT id INTO mgr FROM users WHERE username = 'manager' LIMIT 1;
+        SELECT id INTO mgr FROM users WHERE email = 'manager@gmail.com' LIMIT 1;
         IF mgr IS NULL THEN
           -- If manager doesn't exist, insert it
-          INSERT INTO users(id, username, role) VALUES (uuid_generate_v4(), 'manager', 'MANAGER') ON CONFLICT (username) DO NOTHING;
-          SELECT id INTO mgr FROM users WHERE username = 'manager' LIMIT 1;
+          INSERT INTO users(id, email, password, role) VALUES (uuid_generate_v4(), 'manager@gmail.com', '$2b$10$zKSFBKfOXC.pJiEDlaVvZ.I0ICe2qKSjs1M557TIc8HEfANr55RI6', 'MANAGER') ON CONFLICT (email) DO NOTHING;
+          SELECT id INTO mgr FROM users WHERE email = 'manager@gmail.com' LIMIT 1;
         END IF;
 
         -- Insert three orders

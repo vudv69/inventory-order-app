@@ -223,16 +223,19 @@ const App: React.FC = () => {
                     element={
                       <AuthPage
                         type="login"
+                        rememberMe={false}
+                        forgotPasswordLink={false}
+                        registerLink={false}
                         formProps={{
                           defaultValues: {
-                            email: "demo@refine.dev",
+                            email: "manager@gmail.com",
                             password: "demodemo",
                           },
                         }}
                       />
                     }
                   />
-                  <Route
+                  {/* <Route
                     path="/register"
                     element={
                       <AuthPage
@@ -262,7 +265,7 @@ const App: React.FC = () => {
                   <Route
                     path="/update-password"
                     element={<AuthPage type="updatePassword" />}
-                  />
+                  /> */}
                 </Route>
 
                 <Route

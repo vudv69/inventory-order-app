@@ -16,9 +16,16 @@ export class User {
     type: 'varchar',
     length: 100,
     unique: true,
-    name: 'username',
+    name: 'email',
   })
-  username: string;
+  email: string;
+
+  @Column({
+    type: 'varchar',
+    length: 255,
+    name: 'password',
+  })
+  password: string;
 
   @Column({
     type: 'enum',

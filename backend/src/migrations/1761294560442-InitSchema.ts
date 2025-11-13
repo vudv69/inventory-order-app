@@ -9,7 +9,8 @@ export class InitSchema1761294560442 implements MigrationInterface {
 
       CREATE TABLE IF NOT EXISTS "users" (
         "id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-        "username" VARCHAR(100) UNIQUE NOT NULL,
+        "email" VARCHAR(100) UNIQUE NOT NULL,
+        "password" VARCHAR(255) NOT NULL,
         "role" VARCHAR(20) NOT NULL DEFAULT 'USER',
         "created_at" TIMESTAMP NOT NULL DEFAULT now(),
         "updated_at" TIMESTAMP NOT NULL DEFAULT now()
@@ -51,11 +52,11 @@ export class InitSchema1761294560442 implements MigrationInterface {
     `);
 
     await queryRunner.query(`
-      INSERT INTO "users" ("username", "role")
+      INSERT INTO "users" ("email", "password", "role")
       VALUES
-        ('manager', 'MANAGER'),
-        ('warehouse', 'WAREHOUSE_STAFF'),
-        ('user', 'USER');
+        ('manager@gmail.com', '$2b$10$zKSFBKfOXC.pJiEDlaVvZ.I0ICe2qKSjs1M557TIc8HEfANr55RI6', 'MANAGER'),
+        ('warehouse@gmail.com', '$2b$10$zKSFBKfOXC.pJiEDlaVvZ.I0ICe2qKSjs1M557TIc8HEfANr55RI6', 'WAREHOUSE_STAFF'),
+        ('user@gmail.com', '$2b$10$zKSFBKfOXC.pJiEDlaVvZ.I0ICe2qKSjs1M557TIc8HEfANr55RI6', 'USER');
     `);
   }
 

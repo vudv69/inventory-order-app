@@ -6,7 +6,7 @@ import { UserRepository } from 'src/user/user.repository';
 export class UserService {
   constructor(private readonly userRepo: UserRepository) {}
 
-  findByUsername(username: string): Promise<User | null> {
-    return this.userRepo.findByUsername(username);
+  findByEmail(email: string): Promise<User | null> {
+    return this.userRepo.findByEmail(email);
   }
 }

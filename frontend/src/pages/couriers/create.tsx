@@ -304,14 +304,13 @@ const useStepsFormList = ({ stepsForm }: UseStepsFormList) => {
               field: "gsm",
             }),
           }}
-          render={({ field }) => {
+          render={({ field }: any) => {
             return (
               <InputMask
                 {...field}
                 mask="(999) 999 99 99"
                 disabled={formLoading}
               >
-                {/* @ts-expect-error False alarm */}
                 {(props: TextFieldProps) => (
                   <TextField
                     {...props}
