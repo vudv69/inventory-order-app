@@ -10,11 +10,11 @@ export const authProvider: AuthProvider = {
     enableAutoLogin();
 
     const accountInfo = await axiosInstance
-      .post("/v1/login", {
+      .post("/login", {
         email,
         password,
       })
-      .then((resp) => resp.data.data);
+      .then((resp) => resp.data);
 
     localStorage.setItem(TOKEN_KEY, `${email}-${password}`);
     localStorage.setItem(ACCOUNT_KEY, JSON.stringify(accountInfo));
@@ -89,13 +89,16 @@ export const authProvider: AuthProvider = {
   getPermissions: async () => null,
   getIdentity: async () => {
     const token = localStorage.getItem(TOKEN_KEY);
-    if (!token) {
+    const accountAsStr = localStorage.getItem(ACCOUNT_KEY);
+    if (!token || !accountAsStr) {
       return null;
     }
 
+    const account = JSON.parse(accountAsStr);
+
     return {
-      id: 1,
-      name: "James Sullivan",
+      ...account,
+      name: account.email,
       avatar: "https://i.pravatar.cc/150",
     };
   },

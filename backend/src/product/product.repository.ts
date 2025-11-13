@@ -16,23 +16,15 @@ export class ProductRepository {
       .getManyAndCount();
   }
 
-  filter(
-    skip: number,
-    limit: number,
-    filter?: string,
-    status?: ProductStatus | string,
-  ): Promise<[Product[], number]> {
-    const qb = this.repo.createQueryBuilder('p').skip(skip).take(limit);
+  filter(start: number, end: number): Promise<[Product[], number]> {
+    const take = end - start;
+    const skip = start;
+    const qb = this.repo
+      .createQueryBuilder('p')
+      .orderBy('p.created_at', 'DESC')
+      .skip(skip)
+      .take(take);
 
-    if (filter) {
-      qb.andWhere('(p.name ILIKE :filter OR p.sku ILIKE :filter)', {
-        filter: `%${filter}%`,
-      });
-    }
-
-    if (status) {
-      qb.andWhere('p.status = :status', { status });
-    }
     return qb.getManyAndCount();
   }
 

@@ -37,8 +37,11 @@ import { CategoryList } from "./pages/categories";
 import { ColorModeContextProvider } from "./contexts";
 import { Header, Title } from "./components";
 import { useAutoLoginForDemo } from "./hooks";
+import simpleRest from "@refinedev/simple-rest";
+import axiosInstance from "./utils/axiosInstance";
 
 const API_URL = "https://api.finefoods.refine.dev";
+const IMS_API_URL = import.meta.env.VITE_APP_API_URL || "http://localhost:3001/v1";
 
 const App: React.FC = () => {
   // This hook is used to automatically login the user.
@@ -66,7 +69,10 @@ const App: React.FC = () => {
           <RefineSnackbarProvider>
             <Refine
               routerProvider={routerProvider}
-              dataProvider={dataProvider(API_URL)}
+              dataProvider={{
+                default: dataProvider(API_URL),
+                ims: simpleRest(IMS_API_URL, axiosInstance),
+              }}
               authProvider={authProvider}
               i18nProvider={i18nProvider}
               options={{
@@ -76,12 +82,23 @@ const App: React.FC = () => {
               }}
               notificationProvider={useNotificationProvider}
               resources={[
+                // {
+                //   name: "dashboard",
+                //   list: "/",
+                //   meta: {
+                //     label: "Dashboard",
+                //     icon: <Dashboard />,
+                //   },
+                // },
                 {
-                  name: "dashboard",
-                  list: "/",
+                  name: "products",
+                  list: "/products",
+                  create: "/products/new",
+                  edit: "/products/:id/edit",
+                  show: "/products/:id",
                   meta: {
-                    label: "Dashboard",
-                    icon: <Dashboard />,
+                    icon: <FastfoodOutlinedIcon />,
+                    dataProviderName: "ims",
                   },
                 },
                 {
@@ -101,40 +118,30 @@ const App: React.FC = () => {
                   },
                 },
                 {
-                  name: "products",
-                  list: "/products",
-                  create: "/products/new",
-                  edit: "/products/:id/edit",
-                  show: "/products/:id",
-                  meta: {
-                    icon: <FastfoodOutlinedIcon />,
-                  },
-                },
-                {
                   name: "categories",
                   list: "/categories",
                   meta: {
                     icon: <LabelOutlinedIcon />,
                   },
                 },
-                {
-                  name: "stores",
-                  list: "/stores",
-                  create: "/stores/new",
-                  edit: "/stores/:id/edit",
-                  meta: {
-                    icon: <StoreOutlinedIcon />,
-                  },
-                },
-                {
-                  name: "couriers",
-                  list: "/couriers",
-                  create: "/couriers/new",
-                  edit: "/couriers/:id/edit",
-                  meta: {
-                    icon: <MopedOutlined />,
-                  },
-                },
+                // {
+                //   name: "stores",
+                //   list: "/stores",
+                //   create: "/stores/new",
+                //   edit: "/stores/:id/edit",
+                //   meta: {
+                //     icon: <StoreOutlinedIcon />,
+                //   },
+                // },
+                // {
+                //   name: "couriers",
+                //   list: "/couriers",
+                //   create: "/couriers/new",
+                //   edit: "/couriers/:id/edit",
+                //   meta: {
+                //     icon: <MopedOutlined />,
+                //   },
+                // },
               ]}
             >
               <Routes>

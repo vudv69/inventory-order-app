@@ -32,6 +32,12 @@ export class Product {
   sku: string;
 
   @Column({
+    type: 'text',
+    name: 'description',
+  })
+  description: string;
+
+  @Column({
     type: 'decimal',
     precision: 10,
     scale: 2,
@@ -40,12 +46,11 @@ export class Product {
   price: number;
 
   @Column({
-    type: 'enum',
-    enum: ProductStatus,
-    default: ProductStatus.Active,
-    name: 'status',
+    type: 'boolean',
+    default: 0,
+    name: 'is_active',
   })
-  status: ProductStatus;
+  isActive: boolean;
 
   @Column({
     type: 'integer',

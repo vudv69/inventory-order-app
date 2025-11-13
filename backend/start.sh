@@ -1,2 +1,2 @@
 # nvm use v18
-npm run start
+npm run start:dev

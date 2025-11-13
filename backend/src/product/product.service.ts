@@ -4,10 +4,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import {
-  PaginatedProductResponseDto,
   ProductUpdateDto,
   ProductCreateDto,
   toProductResponseDto,
+  ProductResponse,
 } from './product.dto';
 import { ProductRepository } from './product.repository';
 
@@ -15,16 +15,9 @@ import { ProductRepository } from './product.repository';
 export class ProductService {
   constructor(private repo: ProductRepository) {}
 
-  async getProducts(
-    page = 1,
-    limit = 10,
-    filter?: string,
-    status?: string,
-  ): Promise<PaginatedProductResponseDto> {
-    const skip = (page - 1) * limit;
-    const [data, total] = await this.repo.filter(skip, limit, filter, status);
-    const dtoData = data.map((p) => toProductResponseDto(p));
-    return { data: dtoData, total, page, limit };
+  async getProducts(start = 0, end = 12): Promise<ProductResponse[]> {
+    const [data, total] = await this.repo.filter(start, end);
+    return data.map((p) => toProductResponseDto(p));
   }
 
   async createProduct(input: ProductCreateDto) {

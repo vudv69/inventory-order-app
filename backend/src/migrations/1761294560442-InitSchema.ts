@@ -20,8 +20,9 @@ export class InitSchema1761294560442 implements MigrationInterface {
         "id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
         "name" VARCHAR(255) NOT NULL,
         "sku" VARCHAR(100) UNIQUE NOT NULL,
+        "description" TEXT,
         "price" DECIMAL(10, 2) NOT NULL,
-        "status" VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+        "is_active" BOOLEAN NOT NULL DEFAULT true,
         "inventory_count" INTEGER NOT NULL DEFAULT 0,
         "created_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
         "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()

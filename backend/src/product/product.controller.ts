@@ -24,7 +24,6 @@ import {
   ProductResponse,
   ProductUpdateDto,
 } from './product.dto';
-import { ProductStatus } from './product.schema';
 import { ProductService } from './product.service';
 
 @ApiTags('Products')
@@ -34,28 +33,14 @@ export class ProductController {
   constructor(private readonly service: ProductService) {}
 
   @Get()
-  @ApiQuery({ name: 'page', required: false, example: 1, default: 1 })
-  @ApiQuery({ name: 'limit', required: false, example: 10, default: 10 })
-  @ApiQuery({ name: 'filter', required: false, example: 'milk' })
-  @ApiQuery({
-    name: 'status',
-    required: false,
-    enum: ProductStatus,
-    example: ProductStatus.Active,
-  })
-  @ApiOkResponse({ type: PaginatedProductResponseDto })
+  @ApiQuery({ name: '_start', required: false, example: 0, default: 0 })
+  @ApiQuery({ name: '_end', required: false, example: 12, default: 12 })
+  @ApiOkResponse({ type: ProductResponse })
   async getProducts(
-    @Query('page') page = 1,
-    @Query('limit') limit = 10,
-    @Query('filter') filter?: string,
-    @Query('status') status?: ProductStatus,
-  ): Promise<PaginatedProductResponseDto> {
-    return this.service.getProducts(
-      Number(page),
-      Number(limit),
-      filter,
-      status,
-    );
+    @Query('_start') start = 0,
+    @Query('_end') end = 12,
+  ): Promise<ProductResponse[]> {
+    return this.service.getProducts(start, end);
   }
 
   @Post()
