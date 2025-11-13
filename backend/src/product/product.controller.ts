@@ -21,7 +21,7 @@ import { UserRole } from '../utils/constants';
 import {
   PaginatedProductResponseDto,
   ProductCreateDto,
-  ProductResponseDto,
+  ProductResponse,
   ProductUpdateDto,
 } from './product.dto';
 import { ProductStatus } from './product.schema';
@@ -60,23 +60,31 @@ export class ProductController {
 
   @Post()
   @Roles(UserRole.Manager)
-  @ApiCreatedResponse({ type: ProductResponseDto })
+  @ApiCreatedResponse({ type: ProductResponse })
   createProduct(@Body() body: ProductCreateDto) {
     return this.service.createProduct(body);
   }
 
   @Put(':id')
   @Roles(UserRole.Manager)
-  @ApiParam({ name: 'id', type: Number, example: 1 })
-  @ApiOkResponse({ type: ProductResponseDto })
-  updateProduct(@Param('id') id: number, @Body() body: ProductUpdateDto) {
-    return this.service.updateProduct(Number(id), body);
+  @ApiParam({
+    name: 'id',
+    type: String,
+    example: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+  })
+  @ApiOkResponse({ type: ProductResponse })
+  updateProduct(@Param('id') id: string, @Body() body: ProductUpdateDto) {
+    return this.service.updateProduct(id, body);
   }
 
   @Delete(':id')
   @Roles(UserRole.Manager)
-  @ApiParam({ name: 'id', type: Number, example: 1 })
-  deleteProduct(@Param('id') id: number) {
-    return this.service.deleteProduct(Number(id));
+  @ApiParam({
+    name: 'id',
+    type: String,
+    example: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+  })
+  deleteProduct(@Param('id') id: string) {
+    return this.service.deleteProduct(id);
   }
 }

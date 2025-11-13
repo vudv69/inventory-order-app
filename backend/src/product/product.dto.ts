@@ -7,11 +7,11 @@ import {
   IsString,
   Min,
 } from 'class-validator';
-import { ProductStatus } from './product.schema';
+import { ProductStatus, Product } from './product.schema';
 
-export class ProductResponseDto {
-  @ApiProperty({ example: 1 })
-  id: number;
+export class ProductResponse {
+  @ApiProperty({ example: '3fa85f64-5717-4562-b3fc-2c963f66afa6' })
+  id: string;
 
   @ApiProperty({ example: 'Product name' })
   name: string;
@@ -29,9 +29,20 @@ export class ProductResponseDto {
   inventoryCount: number | null;
 }
 
+export function toProductResponseDto(p: Product): ProductResponse {
+  return {
+    id: p.id,
+    name: p.name,
+    sku: p.sku,
+    price: Number(p.price) as any,
+    status: p.status,
+    inventoryCount: p.inventoryCount ?? null,
+  } as ProductResponse;
+}
+
 export class PaginatedProductResponseDto {
-  @ApiProperty({ type: [ProductResponseDto] })
-  data: ProductResponseDto[];
+  @ApiProperty({ type: [ProductResponse] })
+  data: ProductResponse[];
 
   @ApiProperty({ example: 100 })
   total: number;

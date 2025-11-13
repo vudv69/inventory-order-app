@@ -13,6 +13,8 @@ import { UserThrottlerGuard } from './config/user-throttller.guard';
 import { OrderModule } from './order/order.module';
 import { ProductModule } from './product/product.module';
 import { Product } from './product/product.schema';
+import { Order } from './order/order.schema';
+import { OrderItem } from './order/order_item.schema';
 import { UserModule } from './user/user.module';
 import { User } from './user/user.schema';
 import { jwtConstants } from './utils/auth.constants';
@@ -41,7 +43,7 @@ import { jwtConstants } from './utils/auth.constants';
       ssl: {
         rejectUnauthorized: false,
       },
-      entities: [User, Product],
+      entities: [User, Product, Order, OrderItem],
       synchronize: true,
     }),
 

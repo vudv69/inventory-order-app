@@ -7,7 +7,7 @@ describe('ProductController', () => {
   let controller: ProductController;
 
   const mockProduct = {
-    id: 1,
+    id: 'test',
     name: 'Milk',
     sku: 'MILK123',
     price: 10,

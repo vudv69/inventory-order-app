@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export enum ProductStatus {
   Active = 'ACTIVE',
@@ -7,25 +13,54 @@ export enum ProductStatus {
 
 @Entity('products')
 export class Product {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ type: 'varchar', length: 255 })
-  name: string;
-
-  @Column({ type: 'varchar', length: 100, unique: true })
-  sku: string;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  price: number;
+  @PrimaryGeneratedColumn('uuid', { name: 'id' })
+  id: string;
 
   @Column({
     type: 'varchar',
-    length: 20,
+    length: 255,
+    name: 'name',
+  })
+  name: string;
+
+  @Column({
+    type: 'varchar',
+    length: 100,
+    unique: true,
+    name: 'sku',
+  })
+  sku: string;
+
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    name: 'price',
+  })
+  price: number;
+
+  @Column({
+    type: 'enum',
+    enum: ProductStatus,
     default: ProductStatus.Active,
+    name: 'status',
   })
   status: ProductStatus;
 
-  @Column({ type: 'integer', default: 0, name: 'inventory_count' })
+  @Column({
+    type: 'integer',
+    default: 0,
+    name: 'inventory_count',
+  })
   inventoryCount: number;
+
+  @CreateDateColumn({
+    name: 'created_at',
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
+  updatedAt: Date;
 }

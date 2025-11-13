@@ -5,8 +5,10 @@ export class InitSchema1761294560442 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
+      CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
       CREATE TABLE IF NOT EXISTS "users" (
-        "id" SERIAL PRIMARY KEY,
+        "id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
         "username" VARCHAR(100) UNIQUE NOT NULL,
         "role" VARCHAR(20) NOT NULL DEFAULT 'USER',
         "created_at" TIMESTAMP NOT NULL DEFAULT now(),
@@ -14,7 +16,7 @@ export class InitSchema1761294560442 implements MigrationInterface {
       );
 
       CREATE TABLE IF NOT EXISTS "products" (
-        "id" SERIAL PRIMARY KEY,
+        "id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
         "name" VARCHAR(255) NOT NULL,
         "sku" VARCHAR(100) UNIQUE NOT NULL,
         "price" DECIMAL(10, 2) NOT NULL,
@@ -25,19 +27,24 @@ export class InitSchema1761294560442 implements MigrationInterface {
       );
 
       CREATE TABLE IF NOT EXISTS "orders" (
-        "id" SERIAL PRIMARY KEY,
+        "id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
         "customer_name" VARCHAR(255) NOT NULL,
         "status" VARCHAR(50) NOT NULL DEFAULT 'PENDING',
+        "created_by" uuid NULL,
+        "updated_by" uuid NULL,
         "created_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-        "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+        "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        FOREIGN KEY ("created_by") REFERENCES "users"("id"),
+        FOREIGN KEY ("updated_by") REFERENCES "users"("id")
       );
 
       CREATE TABLE IF NOT EXISTS "order_items" (
-        "id" SERIAL PRIMARY KEY,
-        "order_id" INTEGER NOT NULL REFERENCES "orders"("id") ON DELETE CASCADE,
-        "product_id" INTEGER NOT NULL REFERENCES "products"("id"),
+        "id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+        "order_id" uuid NOT NULL REFERENCES "orders"("id") ON DELETE CASCADE,
+        "product_id" uuid NOT NULL REFERENCES "products"("id"),
         "quantity" INTEGER NOT NULL DEFAULT 1,
         "price" DECIMAL(10, 2) NOT NULL,
+        "subtotal" DECIMAL(10,2) GENERATED ALWAYS AS ("price" * "quantity") STORED,
         "created_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
         "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT NOW()
       );
@@ -47,6 +54,7 @@ export class InitSchema1761294560442 implements MigrationInterface {
       INSERT INTO "users" ("username", "role")
       VALUES
         ('manager', 'MANAGER'),
+        ('warehouse', 'WAREHOUSE_STAFF'),
         ('user', 'USER');
     `);
   }

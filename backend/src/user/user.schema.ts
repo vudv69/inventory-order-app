@@ -1,14 +1,36 @@
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { UserRole } from 'src/utils/constants';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('users')
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid', { name: 'id' })
+  id: string;
 
-  @Column({ type: 'varchar', length: 100, unique: true })
+  @Column({
+    type: 'varchar',
+    length: 100,
+    unique: true,
+    name: 'username',
+  })
   username: string;
 
-  @Column({ type: 'varchar', length: 20, default: UserRole.User })
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.WarehouseStaff,
+    name: 'role',
+  })
   role: UserRole;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 }
