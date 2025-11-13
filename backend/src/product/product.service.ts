@@ -32,6 +32,7 @@ export class ProductService {
     const product = await this.repo.save({
       ...input,
       sku,
+      price: parseFloat(input.price),
     });
     return toProductResponseDto(product as any);
   }
@@ -65,7 +66,7 @@ export class ProductService {
   private async generateSku() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let sku = '';
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < 8; i++) {
       sku += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     const product = await this.repo.findBySKU(sku);

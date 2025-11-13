@@ -67,9 +67,7 @@ export const ProductDrawerForm = (props: Props) => {
       name: "",
       description: "",
       price: 0,
-      category: null,
       isActive: true,
-      images: [],
     },
     refineCoreProps: {
       redirect: false,
@@ -116,7 +114,7 @@ export const ProductDrawerForm = (props: Props) => {
           onFinish(data);
         })}
       >
-        <Box
+        {/* <Box
           display="flex"
           flexDirection="column"
           alignItems="center"
@@ -151,7 +149,7 @@ export const ProductDrawerForm = (props: Props) => {
           {errors.images && (
             <FormHelperText error>{errors.images.message}</FormHelperText>
           )}
-        </Box>
+        </Box> */}
 
         <Paper
           sx={{
@@ -247,7 +245,7 @@ export const ProductDrawerForm = (props: Props) => {
                 <FormHelperText error>{errors.price.message}</FormHelperText>
               )}
             </FormControl>
-            <FormControl>
+            {/* <FormControl>
               <Controller
                 disabled={formLoading}
                 control={control}
@@ -295,7 +293,7 @@ export const ProductDrawerForm = (props: Props) => {
               {errors.category && (
                 <FormHelperText error>{errors.category.message}</FormHelperText>
               )}
-            </FormControl>
+            </FormControl> */}
 
             <FormControl>
               <FormLabel>{t("products.fields.isActive.label")}</FormLabel>

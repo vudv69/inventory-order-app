@@ -34,7 +34,7 @@ export function toProductResponseDto(p: Product): ProductResponse {
   return {
     id: p.id,
     name: p.name,
-    description: randomItem.description,
+    description: p.description,
     sku: p.sku,
     price: Number(p.price) as any,
     createdAt: p.createdAt,
@@ -69,16 +69,14 @@ export class ProductCreateDto {
   @IsNotEmpty()
   description: string;
 
-  @ApiProperty({ example: 999.9 })
-  @IsNumber()
-  @Min(0, { message: 'Price must be positive number' })
+  @ApiProperty({ example: '999.9' })
+  @IsString()
   @IsNotEmpty()
-  price: number;
+  price: string;
 
   @ApiProperty({ example: true })
-  @IsEnum(ProductStatus)
   @IsOptional()
-  isActive?: boolean;
+  isActive?: boolean = true;
 }
 
 export class ProductUpdateDto extends PartialType(ProductCreateDto) {}
